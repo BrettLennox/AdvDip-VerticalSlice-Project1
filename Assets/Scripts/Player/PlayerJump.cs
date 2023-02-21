@@ -9,8 +9,7 @@ public class PlayerJump : MonoBehaviour
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] [Range(1,10)] private float _jumpMultiplier;
     private float _hiddenJumpMultiplier;
-    private GroundCheck _groundCheck;
-    private PlayerAnimator _playerAnimator;
+    private PlayerGroundCheck _playerGroundCheck;
     #endregion
     #region Properties
 
@@ -18,17 +17,15 @@ public class PlayerJump : MonoBehaviour
 
     private void Awake()
     {
-        _groundCheck = GetComponent<GroundCheck>();
-        _playerAnimator = GetComponentInChildren<PlayerAnimator>();
+        _playerGroundCheck = GetComponent<PlayerGroundCheck>();
     }
 
     // Update is called once per frame
     void Update()
     {
         _hiddenJumpMultiplier = _jumpMultiplier * 100;
-        _playerAnimator.IsGrounded = _groundCheck.IsGrounded;
 
-        if (Input.GetKeyDown(KeyCode.Space) && _groundCheck.IsGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && _playerGroundCheck.IsGrounded)
         {
             _rb.AddForce(Vector2.up * _hiddenJumpMultiplier, ForceMode2D.Force);
         }
